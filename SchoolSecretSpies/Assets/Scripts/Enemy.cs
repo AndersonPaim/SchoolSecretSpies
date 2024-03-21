@@ -30,6 +30,13 @@ public abstract class Enemy : MonoBehaviour
 
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
+            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+
+            if (player.IsHide)
+            {
+                return;
+            }
+
             _canSeePlayer = true;
             OnFindPlayer?.Invoke();
             Debug.DrawRay(transform.position, targetDir, Color.blue, 1);

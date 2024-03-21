@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer _playerSprite;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Animator _animator;
     Rigidbody2D _rb;
 
+    private bool _isHide = true;
+    public bool IsHide => _isHide;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        HideableObject.OnHide += Hide;
+    }
+
+    private void OnDestroy()
+    {
+        HideableObject.OnHide -= Hide;
     }
 
     private void Update()
@@ -65,5 +75,11 @@ public class PlayerController : MonoBehaviour
         }
 
         _rb.velocity = newVelocity;
+    }
+
+    private void Hide(bool isHide)
+    {
+        _playerSprite.enabled = !isHide;
+        _isHide = isHide;
     }
 }

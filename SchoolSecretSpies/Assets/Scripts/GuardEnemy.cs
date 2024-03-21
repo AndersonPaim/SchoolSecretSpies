@@ -6,6 +6,7 @@ using UnityEngine;
 public class GuardEnemy : Enemy
 {
     [SerializeField] private List<Transform> _waypointsList = new List<Transform>();
+    [SerializeField] private GameObject _model;
 
     private int _currentWaypoint = 0;
 
@@ -28,9 +29,9 @@ public class GuardEnemy : Enemy
         float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
         _fovPivot.transform.rotation = Quaternion.Euler(0f, 0f, rot_z + 180);
 
-        transform.position = Vector2.MoveTowards(transform.position, _waypointsList[_currentWaypoint].position, _moveSpeed * Time.deltaTime);
+        _model.transform.position = Vector2.MoveTowards(transform.position, _waypointsList[_currentWaypoint].position, _moveSpeed * Time.deltaTime);
 
-        if (transform.position == _waypointsList[_currentWaypoint].position)
+        if (_model.transform.position == _waypointsList[_currentWaypoint].position)
         {
             _currentWaypoint++;
 

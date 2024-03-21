@@ -23,6 +23,7 @@ public class GameOverUI : MonoBehaviour
 
     private void HandlePlayButtonClick()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Game");
     }
 
