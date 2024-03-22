@@ -214,10 +214,10 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0, y: -0.00000011920929, z: 0}
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
-  m_PointLightInnerAngle: 93.18512
-  m_PointLightOuterAngle: 93.18512
+  m_PointLightInnerAngle: 64.176254
+  m_PointLightOuterAngle: 64.176254
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 2.01
+  m_PointLightOuterRadius: 2.54
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -392,10 +392,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.7978996, y: -0.18532018}
-      - {x: 1.085664, y: 1.183238}
+    - - {x: 2.256514, y: -0.15403123}
+      - {x: 1.8095058, y: 1.0774934}
       - {x: -0.338353, y: -0.19653377}
-      - {x: 0.99685264, y: -1.515897}
+      - {x: 1.7608236, y: -1.4127686}
 --- !u!114 &7271221080641199846
 MonoBehaviour:
   m_ObjectHideFlags: 0
