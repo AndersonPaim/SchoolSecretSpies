@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator _animator;
     Rigidbody2D _rb;
 
-    private bool _isHide = true;
+    private bool _isHide = false;
     public bool IsHide => _isHide;
 
     private void Start()

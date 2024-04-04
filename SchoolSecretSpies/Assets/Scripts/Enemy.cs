@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
@@ -8,10 +9,26 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected GameObject _target;
     [SerializeField] protected GameObject _fovTrigger;
     [SerializeField] protected Transform _fovPivot;
+    [SerializeField] protected Animator _animator;
     [SerializeField] protected LayerMask _raycastLayer;
     [SerializeField] protected float _moveSpeed;
 
     protected bool _canSeePlayer = false;
+
+    public void DisableEnemy(float disableDuration)
+    {
+        _fovPivot.gameObject.SetActive(false);
+        _animator.SetFloat("Speed", 0);
+
+        StartCoroutine(DisableDelay());
+
+        IEnumerator DisableDelay()
+        {
+            yield return new WaitForSeconds(disableDuration);
+            _fovPivot.gameObject.SetActive(true);
+            _animator.SetFloat("Speed", 1);
+        }
+    }
 
     protected virtual void Update()
     {
@@ -40,6 +57,13 @@ public abstract class Enemy : MonoBehaviour
             _canSeePlayer = true;
             OnFindPlayer?.Invoke();
             Debug.DrawRay(transform.position, targetDir, Color.blue, 1);
+        }
+
+        Ammo ammo = other.gameObject.GetComponent<Ammo>();
+
+        if (ammo != null)
+        {
+            DisableEnemy(ammo.DisableDuration);
         }
     }
 }
