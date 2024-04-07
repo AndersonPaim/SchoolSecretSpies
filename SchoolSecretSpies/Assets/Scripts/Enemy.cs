@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour, IDamageable
 {
     public static Action OnFindPlayer;
 
+    [SerializeField] protected Collider2D _damageTrigger;
     [SerializeField] protected GameObject _target;
     [SerializeField] protected GameObject _fovTrigger;
     [SerializeField] protected Transform _fovPivot;
@@ -15,19 +16,9 @@ public abstract class Enemy : MonoBehaviour
 
     protected bool _canSeePlayer = false;
 
-    public void DisableEnemy(float disableDuration)
+    public void TakeDamage(float damage)
     {
-        _fovPivot.gameObject.SetActive(false);
-        _animator.SetFloat("Speed", 0);
-
-        StartCoroutine(DisableDelay());
-
-        IEnumerator DisableDelay()
-        {
-            yield return new WaitForSeconds(disableDuration);
-            _fovPivot.gameObject.SetActive(true);
-            _animator.SetFloat("Speed", 1);
-        }
+        DisableEnemy(damage);
     }
 
     protected virtual void Update()
@@ -58,12 +49,22 @@ public abstract class Enemy : MonoBehaviour
             OnFindPlayer?.Invoke();
             Debug.DrawRay(transform.position, targetDir, Color.blue, 1);
         }
+    }
 
-        Ammo ammo = other.gameObject.GetComponent<Ammo>();
+    private void DisableEnemy(float disableDuration)
+    {
+        _fovPivot.gameObject.SetActive(false);
+        _damageTrigger.enabled = false;
+        _animator.SetFloat("Speed", 0);
 
-        if (ammo != null)
+        StartCoroutine(DisableDelay());
+
+        IEnumerator DisableDelay()
         {
-            DisableEnemy(ammo.DisableDuration);
+            yield return new WaitForSeconds(disableDuration);
+            _fovPivot.gameObject.SetActive(true);
+            _damageTrigger.enabled = true;
+            _animator.SetFloat("Speed", 1);
         }
     }
 }

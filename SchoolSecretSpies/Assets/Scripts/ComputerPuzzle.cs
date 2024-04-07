@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class ComputerPuzzle : MonoBehaviour
 {
+    [SerializeField] private GameManager _gameManager;
     [SerializeField] private ComputerButton _computerButtonPrefab;
     [SerializeField] private GameObject _errorUI;
     [SerializeField] private GameObject _successUI;
@@ -61,8 +62,19 @@ public class ComputerPuzzle : MonoBehaviour
 
         if (password[1] == _password)
         {
-            _errorUI.SetActive(false);
-            _successUI.SetActive(true);
+            StartCoroutine(FinishPuzzle());
         }
+    }
+
+    private IEnumerator FinishPuzzle()
+    {
+        _errorUI.SetActive(false);
+        _successUI.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(1);
+        Debug.Log("FINISH LEVEL 0");
+        _gameManager.FinishLevel();
+        gameObject.SetActive(false);
+        Debug.Log("FINISH LEVEL 3");
     }
 }

@@ -10,10 +10,19 @@ public class GameManager : MonoBehaviour
 {
     public Action<int> OnUpdateLifes;
 
+    [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private GameOverUI _gameOverUI;
+    [SerializeField] private GameObject _levelCompletedUI;
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private Transform _respawnPoint;
     [SerializeField] private int lifes;
+
+    public void FinishLevel()
+    {
+        Debug.Log("FINISH LEVEL");
+        //TODO GET SCORE TO SHOW IN THE UI
+        _levelCompletedUI.SetActive(true);
+    }
 
     private void Start()
     {
