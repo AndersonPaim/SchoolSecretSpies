@@ -14,8 +14,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameOverUI _gameOverUI;
     [SerializeField] private GameObject _levelCompletedUI;
     [SerializeField] private PlayerController _playerController;
+    [SerializeField] private Slingshot _slingshot;
     [SerializeField] private Transform _respawnPoint;
-    [SerializeField] private int lifes;
+    [SerializeField] private int _lifes;
+    [SerializeField] private bool _startWithSlingshot;
+
+    public Slingshot Slingshot => _slingshot;
+
+    public bool StartWithSlingshot => _startWithSlingshot;
 
     public void FinishLevel()
     {
@@ -26,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         Enemy.OnFindPlayer += GameOver;
     }
 
@@ -36,10 +43,10 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        lifes--;
-        OnUpdateLifes?.Invoke(lifes);
+        _lifes--;
+        OnUpdateLifes?.Invoke(_lifes);
 
-        if (lifes == 0)
+        if (_lifes == 0)
         {
             Time.timeScale = 0;
             _gameOverUI.gameObject.SetActive(true);

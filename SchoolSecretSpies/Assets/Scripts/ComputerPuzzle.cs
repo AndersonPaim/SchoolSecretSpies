@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.UI;
 
 public class ComputerPuzzle : MonoBehaviour
@@ -72,9 +73,8 @@ public class ComputerPuzzle : MonoBehaviour
         _successUI.SetActive(true);
 
         yield return new WaitForSecondsRealtime(1);
-        Debug.Log("FINISH LEVEL 0");
+
+        transform.DOScale(0, 0.3f).SetUpdate(true);
         _gameManager.FinishLevel();
-        gameObject.SetActive(false);
-        Debug.Log("FINISH LEVEL 3");
     }
 }

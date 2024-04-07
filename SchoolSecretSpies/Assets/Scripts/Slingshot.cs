@@ -1,14 +1,26 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class Slingshot : MonoBehaviour
 {
+    public Action<float, float> OnShoot;
+
     [SerializeField] private GameObject _ammoGameObject;
     [SerializeField] private GameObject _crosshair;
-    [SerializeField] private float _shotForce;
-    [SerializeField] private float _shotPathDistance;
+    [SerializeField] private float _shootForce;
+    [SerializeField] private float _shootCooldown;
+    [SerializeField] private float _initialAmmo;
 
     private bool _isAiming = false;
-    private Vector3 _mousePos;
+    private bool _canShoot = true;
+    private float _ammo;
+
+    private void Start()
+    {
+        _ammo = _initialAmmo;
+        OnShoot?.Invoke(_ammo, 0);
+    }
 
     private void Update()
     {
@@ -28,15 +40,32 @@ public class Slingshot : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && _isAiming)
         {
-            Shot();
+            Shoot();
         }
     }
 
-    private void Shot()
+    private void Shoot()
     {
+        if (!_canShoot && _ammo > 0)
+        {
+            return;
+        }
+
         GameObject ammo = Instantiate(_ammoGameObject, transform.position, Quaternion.identity);
         Rigidbody2D ammoRB = ammo.GetComponent<Rigidbody2D>();
-        ammoRB.AddForce(GetShotDirection() * _shotForce);
+        ammoRB.AddForce(GetShotDirection() * _shootForce);
+        _ammo--;
+
+        OnShoot?.Invoke(_ammo, _shootCooldown);
+
+        StartCoroutine(ShotCooldown());
+
+        IEnumerator ShotCooldown()
+        {
+            _canShoot = false;
+            yield return new WaitForSeconds(_shootCooldown);
+            _canShoot = true;
+        }
     }
 
     private Vector3 GetShotDirection()
