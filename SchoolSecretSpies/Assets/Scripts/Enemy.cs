@@ -21,6 +21,21 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         DisableEnemy(damage);
     }
 
+    public void DealDamage(PlayerController player)
+    {
+        Vector3 targetDir = _target.transform.position - transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDir, Mathf.Infinity, _raycastLayer);
+
+        if (player.IsHide)
+        {
+            return;
+        }
+
+        _canSeePlayer = true;
+        OnFindPlayer?.Invoke();
+        Debug.DrawRay(transform.position, targetDir, Color.blue, 1);
+    }
+
     protected virtual void Update()
     {
         Movement();
@@ -33,22 +48,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        Vector3 targetDir = _target.transform.position - transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, targetDir, Mathf.Infinity, _raycastLayer);
 
-        if (other.gameObject.GetComponent<PlayerController>() != null)
-        {
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
-
-            if (player.IsHide)
-            {
-                return;
-            }
-
-            _canSeePlayer = true;
-            OnFindPlayer?.Invoke();
-            Debug.DrawRay(transform.position, targetDir, Color.blue, 1);
-        }
     }
 
     private void DisableEnemy(float disableDuration)
