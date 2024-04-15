@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
         if (_startWithSlingshot)
         {
-            CollectSlingshot();
+            CollectSlingshot(false);
         }
     }
 
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         SlingshotTrigger.OnCollectSlingshot -= CollectSlingshot;
     }
 
-    private void CollectSlingshot()
+    private void CollectSlingshot(bool showTutorial)
     {
         _slingshot.gameObject.SetActive(true);
     }

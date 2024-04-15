@@ -48,8 +48,13 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "SCORE:" + score;
     }
 
-    private void EnableSlingshotUI()
+    private void EnableSlingshotUI(bool showTutorial)
     {
+        if (!showTutorial)
+        {
+            return;
+        }
+
         _slingShotTutorialUI.transform.DOScale(1, 0.2f).SetUpdate(true);
         _slingShotUI.SetActive(true);
     }

@@ -3,14 +3,19 @@ using UnityEngine;
 
 public class SlingshotTrigger : MonoBehaviour
 {
-    public static Action OnCollectSlingshot;
+    [SerializeField] private bool _showTutorial;
+    public static Action<bool> OnCollectSlingshot;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            Time.timeScale = 0;
-            OnCollectSlingshot?.Invoke();
+            if (_showTutorial)
+            {
+                Time.timeScale = 0;
+            }
+
+            OnCollectSlingshot?.Invoke(_showTutorial);
             Destroy(gameObject);
         }
     }
