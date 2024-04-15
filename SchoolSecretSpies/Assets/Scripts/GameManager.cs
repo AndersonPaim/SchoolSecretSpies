@@ -32,13 +32,24 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 1;
         Enemy.OnFindPlayer += GameOver;
+        SlingshotTrigger.OnCollectSlingshot += CollectSlingshot;
+
+        if (_startWithSlingshot)
+        {
+            CollectSlingshot();
+        }
     }
 
     private void OnDestroy()
     {
         Enemy.OnFindPlayer -= GameOver;
+        SlingshotTrigger.OnCollectSlingshot -= CollectSlingshot;
+    }
+
+    private void CollectSlingshot()
+    {
+        _slingshot.gameObject.SetActive(true);
     }
 
     private void GameOver()

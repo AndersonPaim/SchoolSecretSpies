@@ -46,7 +46,7 @@ public class Slingshot : MonoBehaviour
 
     private void Shoot()
     {
-        if (!_canShoot && _ammo > 0)
+        if (!_canShoot || _ammo <= 0)
         {
             return;
         }

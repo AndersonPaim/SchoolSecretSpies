@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _slingShotUI;
+    [SerializeField] private GameObject _slingShotTutorialUI;
     [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Image _slingshotCooldownImage;
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour
         _scoreManager.OnUpdateUI += UpdateScoreUI;
         _gameManager.OnUpdateLifes += UpdateLifesUI;
         _gameManager.Slingshot.OnShoot += HandleSlingshotShoot;
+        SlingshotTrigger.OnCollectSlingshot += EnableSlingshotUI;
 
         if (_gameManager.StartWithSlingshot)
         {
@@ -38,11 +40,18 @@ public class UIManager : MonoBehaviour
         _scoreManager.OnUpdateUI -= UpdateScoreUI;
         _gameManager.OnUpdateLifes -= UpdateLifesUI;
         _gameManager.Slingshot.OnShoot -= HandleSlingshotShoot;
+        SlingshotTrigger.OnCollectSlingshot -= EnableSlingshotUI;
     }
 
     private void UpdateScoreUI(int score)
     {
         _scoreText.text = "SCORE:" + score;
+    }
+
+    private void EnableSlingshotUI()
+    {
+        _slingShotTutorialUI.transform.DOScale(1, 0.2f).SetUpdate(true);
+        _slingShotUI.SetActive(true);
     }
 
     private void UpdateLifesUI(int lifes)
