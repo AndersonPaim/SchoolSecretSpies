@@ -7,6 +7,7 @@ public class GuardEnemy : Enemy
 {
     [SerializeField] private List<Transform> _waypointsList = new List<Transform>();
     [SerializeField] private GameObject _model;
+    [SerializeField] private bool _invertPathOnEnd;
 
     private int _currentWaypoint = 0;
 
@@ -37,6 +38,11 @@ public class GuardEnemy : Enemy
 
             if (_currentWaypoint >= _waypointsList.Count)
             {
+                if (_invertPathOnEnd)
+                {
+                    _waypointsList.Reverse();
+                }
+
                 _currentWaypoint = 0;
             }
         }

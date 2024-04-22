@@ -8,6 +8,7 @@ public class LevelCompletedUI : MonoBehaviour
 {
     [SerializeField] private Button _playAgainButton;
     [SerializeField] private Button _quitButton;
+    [SerializeField] private string _nextLevel;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class LevelCompletedUI : MonoBehaviour
     private void HandlePlayButtonClick()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(_nextLevel);
     }
 
     private void HandleQuitButtonClick()

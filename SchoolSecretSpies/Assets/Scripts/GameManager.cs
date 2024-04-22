@@ -9,6 +9,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public Action<int> OnUpdateLifes;
+    public Action<float> OnUpdateTimer;
 
     [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private GameOverUI _gameOverUI;
@@ -19,9 +20,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _lifes;
     [SerializeField] private bool _startWithSlingshot;
 
-    public Slingshot Slingshot => _slingshot;
+    private float _timer = 0;
 
+    public Slingshot Slingshot => _slingshot;
     public bool StartWithSlingshot => _startWithSlingshot;
+    public int Lifes => _lifes;
+    public float Timer => _timer;
 
     public void FinishLevel()
     {
@@ -41,6 +45,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        UpdateTimer();
+    }
+
     private void OnDestroy()
     {
         Enemy.OnFindPlayer -= GameOver;
@@ -50,6 +59,12 @@ public class GameManager : MonoBehaviour
     private void CollectSlingshot(bool showTutorial)
     {
         _slingshot.gameObject.SetActive(true);
+    }
+
+    private void UpdateTimer()
+    {
+        _timer += Time.deltaTime;
+        OnUpdateTimer?.Invoke(_timer);
     }
 
     private void GameOver()

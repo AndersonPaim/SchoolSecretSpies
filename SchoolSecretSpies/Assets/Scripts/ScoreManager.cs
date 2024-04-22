@@ -10,6 +10,7 @@ public class ScoreManager : MonoBehaviour
     public Action<int> OnUpdateUI;
 
     private int _points;
+    public int Points => _points;
 
     private void Start()
     {

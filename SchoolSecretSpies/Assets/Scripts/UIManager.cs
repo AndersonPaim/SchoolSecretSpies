@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _ammoText;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _lifesText;
+    [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private CanvasGroup _fadingCanvas;
 
     public void FadeUI(float endValue, float duration)
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour
     {
         _scoreManager.OnUpdateUI += UpdateScoreUI;
         _gameManager.OnUpdateLifes += UpdateLifesUI;
+        _gameManager.OnUpdateTimer += UpdateTimerUI;
         _gameManager.Slingshot.OnShoot += HandleSlingshotShoot;
         SlingshotTrigger.OnCollectSlingshot += EnableSlingshotUI;
 
@@ -39,13 +41,14 @@ public class UIManager : MonoBehaviour
     {
         _scoreManager.OnUpdateUI -= UpdateScoreUI;
         _gameManager.OnUpdateLifes -= UpdateLifesUI;
+        _gameManager.OnUpdateTimer -= UpdateTimerUI;
         _gameManager.Slingshot.OnShoot -= HandleSlingshotShoot;
         SlingshotTrigger.OnCollectSlingshot -= EnableSlingshotUI;
     }
 
     private void UpdateScoreUI(int score)
     {
-        _scoreText.text = "SCORE:" + score;
+        _scoreText.text = "Collectables:" + score;
     }
 
     private void EnableSlingshotUI(bool showTutorial)
@@ -62,6 +65,16 @@ public class UIManager : MonoBehaviour
     private void UpdateLifesUI(int lifes)
     {
         _lifesText.text = "LIFES:" + lifes;
+    }
+
+    private void UpdateTimerUI(float totalSeconds)
+    {
+        int minutes = Mathf.FloorToInt(totalSeconds / 60f);
+        int seconds = Mathf.FloorToInt(totalSeconds % 60f);
+        int milliseconds = Mathf.FloorToInt((totalSeconds * 1000f) % 1000f);
+
+        string timeText = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+        _timerText.text = timeText;
     }
 
     private void HandleSlingshotShoot(float ammo, float cooldown)
