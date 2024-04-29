@@ -1289,7 +1289,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A+
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f214d2ec3706e3044ba8248362998051, type: 2}
   m_sharedMaterial: {fileID: 5945893696368309537, guid: f214d2ec3706e3044ba8248362998051, type: 2}
@@ -1942,7 +1942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoreManager: {fileID: 5100592119045809461}
   _gameOverUI: {fileID: 5100592119394316081}
-  _levelCompletedUI: {fileID: 5100592120616981893}
+  _levelCompletedUI: {fileID: 5100592120616981891}
   _playerController: {fileID: 5100592120099101076}
   _slingshot: {fileID: 5494562993118635309}
   _respawnPoint: {fileID: 5100592119284000851}
@@ -1960,6 +1960,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163532084eed2454bb5643c2019ed2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _goodTime: 30
+  _averageTime: 45
+  _badTime: 60
+  _collectablesTime: 5
 --- !u!114 &5100592119045809460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10477,7 +10481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playAgainButton: {fileID: 5100592119686507412}
   _quitButton: {fileID: 5100592119132006598}
-  _nextLevel: 
+  _nextLevel: Game2
+  _finalScore: {fileID: 5100592118934831734}
 --- !u!1 &5100592120651851769
 GameObject:
   m_ObjectHideFlags: 0
@@ -11612,6 +11617,22 @@ CompositeCollider2D:
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!58 &2672855130769155227
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5100592120099101079}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.02}
+  serializedVersion: 2
+  m_Radius: 0.1
+--- !u!58 &720449200
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

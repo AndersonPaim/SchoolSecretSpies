@@ -53,13 +53,14 @@ public class UIManager : MonoBehaviour
 
     private void EnableSlingshotUI(bool showTutorial)
     {
+        _slingShotUI.SetActive(true);
+
         if (!showTutorial)
         {
             return;
         }
 
         _slingShotTutorialUI.transform.DOScale(1, 0.2f).SetUpdate(true);
-        _slingShotUI.SetActive(true);
     }
 
     private void UpdateLifesUI(int lifes)

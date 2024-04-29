@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private GameOverUI _gameOverUI;
-    [SerializeField] private GameObject _levelCompletedUI;
+    [SerializeField] private LevelCompletedUI _levelCompletedUI;
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private Slingshot _slingshot;
     [SerializeField] private Transform _respawnPoint;
@@ -21,8 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _startWithSlingshot;
 
     private float _timer = 0;
+    private List<KeyType> _keys = new List<KeyType>();
 
     public Slingshot Slingshot => _slingshot;
+    public List<KeyType> Keys => _keys;
     public bool StartWithSlingshot => _startWithSlingshot;
     public int Lifes => _lifes;
     public float Timer => _timer;
@@ -30,14 +32,16 @@ public class GameManager : MonoBehaviour
     public void FinishLevel()
     {
         Debug.Log("FINISH LEVEL");
-        //TODO GET SCORE TO SHOW IN THE UI
-        _levelCompletedUI.SetActive(true);
+        string score = _scoreManager.GetFinalScore(_timer, _lifes);
+        _levelCompletedUI.SetScore(score);
+        _levelCompletedUI.gameObject.SetActive(true);
     }
 
     private void Start()
     {
         Enemy.OnFindPlayer += GameOver;
         SlingshotTrigger.OnCollectSlingshot += CollectSlingshot;
+        KeyTrigger.OnCollectKey += CollectKey;
 
         if (_startWithSlingshot)
         {
@@ -54,11 +58,17 @@ public class GameManager : MonoBehaviour
     {
         Enemy.OnFindPlayer -= GameOver;
         SlingshotTrigger.OnCollectSlingshot -= CollectSlingshot;
+        KeyTrigger.OnCollectKey -= CollectKey;
     }
 
     private void CollectSlingshot(bool showTutorial)
     {
         _slingshot.gameObject.SetActive(true);
+    }
+
+    private void CollectKey(KeyType keyType)
+    {
+        _keys.Add(keyType);
     }
 
     private void UpdateTimer()

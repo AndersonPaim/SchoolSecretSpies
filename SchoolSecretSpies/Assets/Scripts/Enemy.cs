@@ -15,6 +15,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected float _moveSpeed;
 
     protected bool _canSeePlayer = false;
+    protected bool _canDealDamage = true;
 
     public void TakeDamage(float damage)
     {
@@ -32,8 +33,22 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         }
 
         _canSeePlayer = true;
-        OnFindPlayer?.Invoke();
+
+        if (_canDealDamage)
+        {
+            OnFindPlayer?.Invoke();
+        }
+
+        StartCoroutine(DamageCooldown());
+
         Debug.DrawRay(transform.position, targetDir, Color.blue, 1);
+    }
+
+    protected virtual IEnumerator DamageCooldown()
+    {
+        _canDealDamage = false;
+        yield return new WaitForSeconds(1);
+        _canDealDamage = true;
     }
 
     protected virtual void Update()

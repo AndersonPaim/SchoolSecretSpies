@@ -20,11 +20,6 @@ public class GuardEnemy : Enemy
     {
         base.Movement();
 
-        if (_canSeePlayer)
-        {
-            return;
-        }
-
         Vector3 diff = transform.position - _waypointsList[_currentWaypoint].position;
         diff.Normalize();
         float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
