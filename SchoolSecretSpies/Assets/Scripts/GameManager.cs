@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         _slingshot.gameObject.SetActive(true);
     }
 
-    private void CollectKey(KeyType keyType)
+    private void CollectKey(KeyType keyType, Color color)
     {
         _keys.Add(keyType);
     }
@@ -89,7 +89,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _playerController.gameObject.transform.DOMove(_respawnPoint.position, 0);
+            _playerController.Hide(true);
+            _playerController.transform.DOMove(_respawnPoint.position, 2).OnComplete(() => _playerController.Hide(false));
         }
     }
 }

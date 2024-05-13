@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer _playerSprite;
+    [SerializeField] private SpriteRenderer _slingshotSprite;
+    [SerializeField] private Collider2D _collider;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Animator _animator;
-    Rigidbody2D _rb;
 
+    private Rigidbody2D _rb;
     private bool _isHide = false;
     public bool IsHide => _isHide;
 
@@ -77,9 +79,11 @@ public class PlayerController : MonoBehaviour
         _rb.velocity = newVelocity;
     }
 
-    private void Hide(bool isHide)
+    public void Hide(bool isHide)
     {
         _playerSprite.enabled = !isHide;
+        _slingshotSprite.enabled = !isHide;
+        _collider.enabled = !isHide;
         _isHide = isHide;
     }
 }

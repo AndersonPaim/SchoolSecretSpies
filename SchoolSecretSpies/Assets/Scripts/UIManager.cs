@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _slingShotUI;
     [SerializeField] private GameObject _slingShotTutorialUI;
+    [SerializeField] private KeyItemUI _keyItemUI;
+    [SerializeField] private Transform _keyItemPosition;
     [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private Image _slingshotCooldownImage;
@@ -30,6 +32,7 @@ public class UIManager : MonoBehaviour
         _gameManager.OnUpdateTimer += UpdateTimerUI;
         _gameManager.Slingshot.OnShoot += HandleSlingshotShoot;
         SlingshotTrigger.OnCollectSlingshot += EnableSlingshotUI;
+        KeyTrigger.OnCollectKey += CollectKeyUI;
 
         if (_gameManager.StartWithSlingshot)
         {
@@ -44,6 +47,7 @@ public class UIManager : MonoBehaviour
         _gameManager.OnUpdateTimer -= UpdateTimerUI;
         _gameManager.Slingshot.OnShoot -= HandleSlingshotShoot;
         SlingshotTrigger.OnCollectSlingshot -= EnableSlingshotUI;
+        KeyTrigger.OnCollectKey -= CollectKeyUI;
     }
 
     private void UpdateScoreUI(int score)
@@ -61,6 +65,12 @@ public class UIManager : MonoBehaviour
         }
 
         _slingShotTutorialUI.transform.DOScale(1, 0.2f).SetUpdate(true);
+    }
+
+    private void CollectKeyUI(KeyType keyType, Color color)
+    {
+        KeyItemUI itemUI = Instantiate(_keyItemUI, _keyItemPosition);
+        itemUI.SetColor(color);
     }
 
     private void UpdateLifesUI(int lifes)
