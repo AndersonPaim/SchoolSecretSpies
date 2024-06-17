@@ -342,8 +342,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSprite: {fileID: 758973550650475539}
+  _slingshotSprite: {fileID: 0}
+  _collider: {fileID: 0}
   _moveSpeed: 5
   _animator: {fileID: 758973550650475538}
+  _slingshot: {fileID: 1309571244}
 --- !u!50 &758973550650475540
 Rigidbody2D:
   serializedVersion: 4

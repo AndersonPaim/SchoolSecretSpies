@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour
 {
-    public Action<float, float> OnShoot;
+    public static Action<float, float> OnShot;
 
     [SerializeField] private GameObject _ammoGameObject;
     [SerializeField] private GameObject _crosshair;
@@ -14,17 +14,28 @@ public class Slingshot : MonoBehaviour
 
     private bool _isAiming = false;
     private bool _canShoot = true;
+    private bool _isHide = false;
     private float _ammo;
+
+    public void Hide(bool isHide)
+    {
+        _isHide = isHide;
+    }
 
     private void Start()
     {
         _ammo = _initialAmmo;
-        OnShoot?.Invoke(_ammo, 0);
+        OnShot?.Invoke(_ammo, 0);
     }
 
     private void Update()
     {
         Vector3 _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (_isHide)
+        {
+            return;
+        }
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
@@ -38,7 +49,7 @@ public class Slingshot : MonoBehaviour
             _isAiming = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && _isAiming)
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Shoot();
         }
@@ -56,7 +67,7 @@ public class Slingshot : MonoBehaviour
         ammoRB.AddForce(GetShotDirection() * _shootForce);
         _ammo--;
 
-        OnShoot?.Invoke(_ammo, _shootCooldown);
+        OnShot?.Invoke(_ammo, _shootCooldown);
 
         StartCoroutine(ShotCooldown());
 

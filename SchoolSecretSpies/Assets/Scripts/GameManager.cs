@@ -18,12 +18,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slingshot _slingshot;
     [SerializeField] private Transform _respawnPoint;
     [SerializeField] private int _lifes;
+    [SerializeField] private string _levelKey;
     [SerializeField] private bool _startWithSlingshot;
 
     private float _timer = 0;
     private List<KeyType> _keys = new List<KeyType>();
 
-    public Slingshot Slingshot => _slingshot;
     public List<KeyType> Keys => _keys;
     public bool StartWithSlingshot => _startWithSlingshot;
     public int Lifes => _lifes;
@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     public void FinishLevel()
     {
         Debug.Log("FINISH LEVEL");
+        SaveSystem.localData.LevelData[_levelKey].Time.Add(_timer);
+        SaveSystem.localData.LevelData[_levelKey].TimesPlayed++;
+        SaveSystem.Save();
         string score = _scoreManager.GetFinalScore(_timer, _lifes);
         _levelCompletedUI.SetScore(score);
         _levelCompletedUI.gameObject.SetActive(true);
@@ -42,6 +45,11 @@ public class GameManager : MonoBehaviour
         Enemy.OnFindPlayer += GameOver;
         SlingshotTrigger.OnCollectSlingshot += CollectSlingshot;
         KeyTrigger.OnCollectKey += CollectKey;
+        HideableObject.OnHide += Hide;
+        Slingshot.OnShot += Shot;
+        ItemCollectable.OnCollect += CollectItem;
+
+        SaveSystem.Load();
 
         if (_startWithSlingshot)
         {
@@ -59,6 +67,9 @@ public class GameManager : MonoBehaviour
         Enemy.OnFindPlayer -= GameOver;
         SlingshotTrigger.OnCollectSlingshot -= CollectSlingshot;
         KeyTrigger.OnCollectKey -= CollectKey;
+        HideableObject.OnHide -= Hide;
+        Slingshot.OnShot -= Shot;
+        ItemCollectable.OnCollect -= CollectItem;
     }
 
     private void CollectSlingshot(bool showTutorial)
@@ -71,6 +82,29 @@ public class GameManager : MonoBehaviour
         _keys.Add(keyType);
     }
 
+    private void Hide(bool isHide)
+    {
+        if (!isHide)
+        {
+            return;
+        }
+
+        SaveSystem.localData.LevelData[_levelKey].HidePlaces++;
+        SaveSystem.Save();
+    }
+
+    private void Shot(float x, float y)
+    {
+        SaveSystem.localData.LevelData[_levelKey].Shots++;
+        SaveSystem.Save();
+    }
+
+    private void CollectItem(int time)
+    {
+        SaveSystem.localData.LevelData[_levelKey].Collectables++;
+        SaveSystem.Save();
+    }
+
     private void UpdateTimer()
     {
         _timer += Time.deltaTime;
@@ -81,6 +115,15 @@ public class GameManager : MonoBehaviour
     {
         _lifes--;
         OnUpdateLifes?.Invoke(_lifes);
+
+        DeathData deathData = new DeathData();
+        deathData.PosX = _playerController.transform.position.x;
+        deathData.PosY = _playerController.transform.position.y;
+        deathData.EnemyType = EnemyType.Camera;
+
+        Debug.Log("GAME OVER: " + deathData.PosX + " : " + deathData.PosY);
+        SaveSystem.localData.LevelData[_levelKey].Deaths.Add(deathData);
+        SaveSystem.Save();
 
         if (_lifes == 0)
         {

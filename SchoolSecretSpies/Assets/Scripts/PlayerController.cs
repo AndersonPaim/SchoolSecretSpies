@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Collider2D _collider;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private Animator _animator;
+    [SerializeField] private Slingshot _slingshot;
 
     private Rigidbody2D _rb;
     private bool _isHide = false;
@@ -27,7 +28,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Movement();
+        if (!_isHide)
+        {
+            Movement();
+        }
     }
 
     private void Movement()
@@ -85,5 +89,6 @@ public class PlayerController : MonoBehaviour
         _slingshotSprite.enabled = !isHide;
         _collider.enabled = !isHide;
         _isHide = isHide;
+        _slingshot.Hide(isHide);
     }
 }

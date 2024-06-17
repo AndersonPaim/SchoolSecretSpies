@@ -7,6 +7,13 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class PuzzlePassword
+{
+    public string Password;
+    public string Tip;
+}
+
 public class ComputerPuzzle : MonoBehaviour
 {
     [SerializeField] private GameManager _gameManager;
@@ -16,13 +23,18 @@ public class ComputerPuzzle : MonoBehaviour
     [SerializeField] private Transform _letterPos;
     [SerializeField] private Button _deleteLetter;
     [SerializeField] private TextMeshProUGUI _passwordText;
-    [SerializeField] private string _password;
+    [SerializeField] private TextMeshProUGUI _tipText;
+    [SerializeField] private List<PuzzlePassword> _passwordList = new List<PuzzlePassword>();
 
     private List<Button> _lastButtons = new List<Button>();
+    private int _randomWordIndex;
 
     private void Start()
     {
-        char[] characters = _password.ToArray();
+        _randomWordIndex = UnityEngine.Random.Range(0, _passwordList.Count);
+        _tipText.text = "TIP: " + _passwordList[_randomWordIndex].Tip;
+
+        char[] characters = _passwordList[_randomWordIndex].Password.ToArray();
         Array.Sort(characters);
         string letterOrder = new string(characters);
 
@@ -61,7 +73,7 @@ public class ComputerPuzzle : MonoBehaviour
 
         string[] password = _passwordText.text.Split(": ");
 
-        if (password[1] == _password)
+        if (password[1] == _passwordList[_randomWordIndex].Password)
         {
             StartCoroutine(FinishPuzzle());
         }

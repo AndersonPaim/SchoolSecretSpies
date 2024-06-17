@@ -7,19 +7,19 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
+    public Action<int> OnUpdateUI;
+
     [SerializeField] private float _goodTime;
     [SerializeField] private float _averageTime;
     [SerializeField] private float _badTime;
-    [SerializeField] private float _collectablesTime;
 
-    public Action<int> OnUpdateUI;
-
-    private int _points;
+    private int _bonusTime = 0;
+    private int _points = 0;
     public int Points => _points;
 
     public string GetFinalScore(float time, float lifes)
     {
-        time -= _collectablesTime * _points;
+        time -= _bonusTime;
         float score = 0;
 
         if (time <= _goodTime)
@@ -73,9 +73,9 @@ public class ScoreManager : MonoBehaviour
         ItemCollectable.OnCollect -= CollectItem;
     }
 
-    private void CollectItem(int points)
+    private void CollectItem(int time)
     {
-        _points += points;
-        OnUpdateUI?.Invoke(_points);
+        _points++;
+        _bonusTime += time;
     }
 }

@@ -156,4 +156,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc2fd59dea67b642ad700855984517e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _points: 1
+  _timeAnimatedText: {fileID: 1721456370670957077, guid: 2e648ebe2e99a4b43b7b324a7dde1765, type: 3}
+  _time: 10
