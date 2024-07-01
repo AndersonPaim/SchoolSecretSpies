@@ -7,6 +7,7 @@ public class DuctTrigger : MonoBehaviour
 {
     [SerializeField] private Transform _teleportPos;
     [SerializeField] private GameObject _buttonIcon;
+    [SerializeField] private bool _canEnter = true;
     public Action<PlayerController, Transform> OnTrigger;
 
     private bool _isTrigger;
@@ -14,6 +15,11 @@ public class DuctTrigger : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
+        if (!_canEnter)
+        {
+            return;
+        }
+
         _player = other.GetComponent<PlayerController>();
 
         if (_player != null)

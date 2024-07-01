@@ -8,6 +8,7 @@ public class MainMenuUI : MonoBehaviour
 {
     [SerializeField] private Button _playButton;
     [SerializeField] private Button _quitButton;
+    [SerializeField] private GameObject _levelSelectionUI;
 
     private void Start()
     {
@@ -23,7 +24,8 @@ public class MainMenuUI : MonoBehaviour
 
     private void HandlePlayButtonClick()
     {
-        SceneManager.LoadScene("Game");
+        _levelSelectionUI.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     private void HandleQuitButtonClick()

@@ -16,8 +16,7 @@ public class ItemCollectable : MonoBehaviour
         if (other.tag == "Player")
         {
             GameObject timeAnimatedText = Instantiate(_timeAnimatedText);
-            _timeAnimatedText.GetComponent<Canvas>().worldCamera = Camera.main;
-            _timeAnimatedText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "-" + _time + " SEC";
+            timeAnimatedText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().SetText("-" + _time + " SEC");
             timeAnimatedText.transform.position = transform.position;
             OnCollect?.Invoke(_time);
             gameObject.SetActive(false);
