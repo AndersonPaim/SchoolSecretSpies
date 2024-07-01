@@ -16,6 +16,7 @@ public class OptionsUI : MonoBehaviour
     {
         _volumeSlider.onValueChanged.AddListener(HandleVolumeSliderChange);
         _quitButton.onClick.AddListener(HandleQuitButtonClick);
+        _volumeSlider.value = SaveSystem.localData.GlobalVolume;
     }
 
     private void OnDestroy()
@@ -27,6 +28,8 @@ public class OptionsUI : MonoBehaviour
     private void HandleVolumeSliderChange(float volume)
     {
         _audioMixer.SetFloat("globalVolume", Mathf.Log10(volume) * 20);
+        SaveSystem.localData.GlobalVolume = volume;
+        SaveSystem.Save();
     }
 
     private void HandleQuitButtonClick()

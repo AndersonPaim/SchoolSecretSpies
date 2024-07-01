@@ -3342,6 +3342,8 @@ MonoBehaviour:
   _playerController: {fileID: 5100592120099101076}
   _slingshot: {fileID: 5494562993118635309}
   _respawnPoint: {fileID: 5100592119284000851}
+  _volume: {fileID: 5100592120383883425}
+  _audioMixer: {fileID: 24100000, guid: e1a3ee44a89c8924eabb632e0a5ecef3, type: 2}
   _lifes: 3
   _levelKey: LEVEL1
   _startWithSlingshot: 0

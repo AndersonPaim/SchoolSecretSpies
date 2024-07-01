@@ -52,6 +52,7 @@ public static class SaveSystem
             localData.LevelData.Add("LEVEL3", level);
             localData.LevelData.Add("LEVEL4", level);
             localData.LevelData.Add("LEVEL5", level);
+            localData.GlobalVolume = 1;
 
             Debug.Log("Carregou save novo");
         }

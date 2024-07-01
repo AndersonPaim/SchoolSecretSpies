@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using DG.Tweening;
 using System;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,11 +20,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private Slingshot _slingshot;
     [SerializeField] private Transform _respawnPoint;
+    [SerializeField] private Volume _volume;
+    [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private int _lifes;
     [SerializeField] private string _levelKey;
     [SerializeField] private bool _startWithSlingshot;
 
     private float _timer = 0;
+    private Vignette _vignette;
     private List<KeyType> _keys = new List<KeyType>();
 
     public List<KeyType> Keys => _keys;
@@ -55,6 +61,14 @@ public class GameManager : MonoBehaviour
         {
             CollectSlingshot(false);
         }
+
+        if (_volume.profile.TryGet<Vignette>(out _vignette))
+        {
+        }
+
+        float volume = SaveSystem.localData.GlobalVolume;
+        Debug.Log("VOLUME: " + SaveSystem.localData.GlobalVolume);
+        _audioMixer.SetFloat("globalVolume", Mathf.Log10(volume) * 20);
     }
 
     private void Update()
@@ -86,11 +100,14 @@ public class GameManager : MonoBehaviour
     {
         if (!isHide)
         {
-            return;
+            Debug.Log("ENTER HIDE");
         }
-
-        SaveSystem.localData.LevelData[_levelKey].HidePlaces++;
-        SaveSystem.Save();
+        else
+        {
+            Debug.Log("EXIT HIDE");
+            SaveSystem.localData.LevelData[_levelKey].HidePlaces++;
+            SaveSystem.Save();
+        }
     }
 
     private void Shot(float x, float y)

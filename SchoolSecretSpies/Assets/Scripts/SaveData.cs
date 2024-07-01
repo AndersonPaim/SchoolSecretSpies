@@ -7,8 +7,8 @@ using UnityEngine;
 public class SaveData
 {
     public Dictionary<string, LevelData> LevelData = new Dictionary<string, LevelData>();
+    public float GlobalVolume;
 }
-
 
 [System.Serializable]
 public class LevelData
