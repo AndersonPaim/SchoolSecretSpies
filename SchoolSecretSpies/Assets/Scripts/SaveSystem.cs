@@ -51,6 +51,7 @@ public static class SaveSystem
             localData.LevelData.Add("LEVEL2", level);
             localData.LevelData.Add("LEVEL3", level);
             localData.LevelData.Add("LEVEL4", level);
+            localData.LevelData.Add("LEVEL5", level);
 
             Debug.Log("Carregou save novo");
         }

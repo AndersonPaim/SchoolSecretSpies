@@ -94,6 +94,7 @@ MonoBehaviour:
   - {fileID: 8479393127735727798}
   - {fileID: 8479393128738608156}
   _model: {fileID: 619814250951750772}
+  _invertPathOnEnd: 0
 --- !u!1 &8479393127452381203
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,6 +566,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -1739008573, guid: d02f5106394cd68488244a937840d08c, type: 3}
+    - target: {fileID: 8607147334014189061, guid: 035b1735eb9817a4b988f40ccb55f3b0, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8607147334014189061, guid: 035b1735eb9817a4b988f40ccb55f3b0, type: 3}
       propertyPath: m_SortingOrder
       value: 11
